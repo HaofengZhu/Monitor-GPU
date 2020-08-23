@@ -28,7 +28,7 @@ pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}] 
 - `START_DATE`:报告生成的开始时间，默认是`END_DATE`的一个月前
 - `END_DATE`:报告生成的结束时间，默认是昨天
 - `LOG_DIR`:日志存放的文件夹，默认`log`
-- `REPORT_DIR`:报告存放的文件夹，默认`report`
+- `REPORT_DIR`:报告存放的文件夹，默认`report`。报告汇总从`START_DATE`到`END_DATE`的summary日志，输出格式与summary日志一致。
 
 ## 注意
 1. `generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误
