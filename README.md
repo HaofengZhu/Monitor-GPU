@@ -2,13 +2,14 @@
 Python脚本，用于记录服务器中谁使用了GPU，使用了多长时间并生成汇总报告。
 
 ## Monitor GPU Use
+监控GPU使用记录，每隔一定时间记录一次GPU使用情况
 ```
 pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}] [--log-time-unit ${LOG_TIME_UNIT}] 
                     [--save-interval ${SAVE_INTERVAL}] [--log-storage-date ${LOG_STORAGE_DATE}]
                      [--delete-summary ${DELETE_SUMMARY}]
 ```
 可选参数：
-- `MONITOR_INTERVAL`:监控间隔（秒），每`MONITOR_INTERVAL`秒监控一次GPU使用情况，默认60秒
+- `MONITOR_INTERVAL`:监控间隔（秒），每`MONITOR_INTERVAL`秒监控一次GPU使用情况，默认60秒，默认该时间段内用户一直在使用GPU
 - `LOG_DIR`:日志存放的文件夹，默认`log`
 - `LOG_TIME_UNIT`:日志中记录的用户使用时常的单位，可选`['day','hour','minute','second']`,默认`hour`
 - `SAVE_INTERVAL`:每次写入日志的间隔（天），默认为1天，每次会写入两个日志：detail和summary，
@@ -19,6 +20,7 @@ pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}
 - `LOG_STORAGE_DATE`:日志的保存时间（天），超过保存时间的日志会被删除，默认为90天
 - `DELETE_SUMMARY`:是否删除summary日志，默认True
 ## Generate Report
+根据监控记录生成一段时间的汇总报告
 ```
 pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}] [--log-dir ${LOG_DIR}] [--report-dir ${REPORT_DIR}]
 ```
