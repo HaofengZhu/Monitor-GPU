@@ -42,4 +42,6 @@ pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}]
 2. 启动`monitor.py`如果`LOG_DIR`存在，会发送警告，但不会检查目录里面的文件是否安全有效
 3. 该脚本不能放在容器中运行，不然会找不到使用GPU的进程号的信息
 
+## 更新
+1. 2020.8.25更新：新加入检查在容器中的pid对应容器名的功能
 
