@@ -27,16 +27,16 @@ pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}
 - `PRINT_LOG`:是否打印监控信息，默认为False
 
 ## Generate Report
-根据监控记录生成一段时间的汇总报告
+根据监控记录生成开始时间到结束时间，包括开始和结束时间的汇总报告
 ```
 pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}] 
                            [--log-dir ${LOG_DIR}] [--report-dir ${REPORT_DIR}]
 ```
 可选参数：
-- `START_DATE`:报告生成的开始时间，默认是`END_DATE`的一个月前
+- `START_DATE`:报告生成的开始时间，默认是`END_DATE`往前一个月
 - `END_DATE`:报告生成的结束时间，默认是昨天
-- `LOG_DIR`:日志存放的文件夹，默认`log`
-- `REPORT_DIR`:报告存放的文件夹，默认`report`。报告汇总从`START_DATE`到`END_DATE`的summary日志，输出格式与summary日志一致。
+- `LOG_DIR`:日志存放的文件夹，默认`./log`
+- `REPORT_DIR`:报告存放的文件夹，默认`./report`。报告汇总从`START_DATE`到`END_DATE`的summary日志，输出格式与summary日志一致。
 
 ## 注意
 - `monitor.py`,`generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误，如果需要更换`LOG_TIME_UNIT`需要先删除之前的日志
