@@ -39,8 +39,8 @@ pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}]
 - `REPORT_DIR`:报告存放的文件夹，默认`report`。报告汇总从`START_DATE`到`END_DATE`的summary日志，输出格式与summary日志一致。
 
 ## 注意
--. `monitor.py`,`generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误，如果需要更换`LOG_TIME_UNIT`需要先删除之前的日志
--. 该脚本不能放在容器中运行，不然会找不到使用GPU的进程号的信息
+- `monitor.py`,`generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误，如果需要更换`LOG_TIME_UNIT`需要先删除之前的日志
+- 该脚本不能放在容器中运行，不然会找不到使用GPU的进程号的信息
 
 ## 更新
 - 2020.8.26更新：修改了detail日志存储方式，使其可以在同一天中进程中断时不丢失之前的记录
