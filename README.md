@@ -11,7 +11,7 @@ pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}
 ```
 可选参数：
 - `MONITOR_INTERVAL`:监控间隔（秒），每`MONITOR_INTERVAL`秒监控一次GPU使用情况，默认60秒，默认该时间段内用户一直在使用GPU
-- `LOG_DIR`:日志存放的文件夹，默认`log`
+- `LOG_DIR`:日志存放的文件夹，默认`./log`
 - `LOG_TIME_UNIT`:日志中记录的用户使用时常的单位，可选`['day','hour','minute','second']`,默认`hour`
 - `SAVE_INTERVAL`:每次写入日志的间隔（天），默认为1天，每次会写入两个日志：detail和summary，
         日志格式为`${DATE}_detail.csv`和`${DATE}_summary.csv`，detail日志保存了每个监控间隔记录到的用户名，pid，
