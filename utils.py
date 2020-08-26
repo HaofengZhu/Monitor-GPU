@@ -6,14 +6,13 @@ import pandas as pd
 import os
 
 
-def monitor_nowtime(is_console=False,check_docker=False):
+def monitor_nowtime(log_dir,date,now_time,is_console=False,check_docker=False):
     command1 = 'nvidia-smi --query-compute-apps=pid,gpu_bus_id,used_gpu_memory --format=csv,nounits'
     df1 = pd.read_csv(os.popen(command1))
     command2 = 'nvidia-smi --query-gpu=index,pci.bus_id,memory.total --format=csv,nounits'
     df2 = pd.read_csv(os.popen(command2))
-    now_time=datetime.now().strftime("%H:%M")
     if is_console:
-        logging.info('monitor on:%s' % datetime.now().strftime("'%Y-%m-%d %H:%M"))
+        logging.info('monitor on:%s %s' % (date,now_time))
 
     used_gpu_message_list=[]
     for idx, row in df1.iterrows():
@@ -66,13 +65,21 @@ def monitor_nowtime(is_console=False,check_docker=False):
 
         used_gpu_message = [now_time,process_user_name,pid,docker_name,gpu_index, ratio]
         used_gpu_message_list.append(used_gpu_message)
+
+    used_gpu_message_list=pd.DataFrame(used_gpu_message_list,
+                                       columns=['time(H:M)','user','pid','container_name','gpu_index','ratio'])
+    detail_file=os.path.join(log_dir,'{}_detail.csv'.format(date))
+    if not os.path.exists(detail_file):
+        used_gpu_message_list.to_csv(detail_file,mode='w',index=False, float_format='%.3f')
+    else:
+        used_gpu_message_list.to_csv(detail_file,mode='a',index=False,header=False, float_format='%.3f')
+
     return used_gpu_message_list
 
-def to_file(used_message_list,monitor_interval,save_dir,date,log_time_unit='hour',
-            docker_as_user=False,docker_name_logo="&DOCKER&"):
-    used_message_list=pd.DataFrame(used_message_list,
-                                   columns=['time(H:M)','user','pid','container_name','gpu_index','ratio'])
-    used_message_list.to_csv(os.path.join(save_dir,'{}_detail.csv'.format(date)),index=False,float_format='%.3f')
+def to_file( monitor_interval, log_dir, date, log_time_unit='hour',
+            docker_as_user=False, docker_name_logo="&DOCKER&"):
+    detail_file=os.path.join(log_dir,'{}_detail.csv'.format(date))
+    used_message_list=pd.read_csv(detail_file)
     time_unit=1
     if log_time_unit=='minute':
         time_unit=60
@@ -135,7 +142,7 @@ def to_file(used_message_list,monitor_interval,save_dir,date,log_time_unit='hour
                             user_total_used[user]/user_used_time[user]])
     output_dict=pd.DataFrame(output_dict,columns=['user','total gpu time({})'.format(log_time_unit),
                                                   'used time({})'.format(log_time_unit),'average used gpu num'])
-    output_dict.to_csv(os.path.join(save_dir,'{}_summary.csv'.format(date)),index=False,float_format='%.3f')
+    output_dict.to_csv(os.path.join(log_dir, '{}_summary.csv'.format(date)), index=False, float_format='%.3f')
 
 def delete_file(log_dir,delete_date,delete_summary):
     dfiles=[]

@@ -7,7 +7,7 @@ Python脚本，用于记录服务器中谁使用了GPU，使用了多长时间�
 pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}] [--log-time-unit ${LOG_TIME_UNIT}] 
                    [--save-interval ${SAVE_INTERVAL}] [--log-storage-date ${LOG_STORAGE_DATE}]
                    [--delete-summary ${DELETE_SUMMARY}] [--check-docker ${CHECK_DOCKER}]
-                   [--docker-as-user ${DOCKER_AS_USER}]
+                   [--docker-as-user ${DOCKER_AS_USER}] [--print-log ${PRINT_LOG}]
 ```
 可选参数：
 - `MONITOR_INTERVAL`:监控间隔（秒），每`MONITOR_INTERVAL`秒监控一次GPU使用情况，默认60秒，默认该时间段内用户一直在使用GPU
@@ -24,6 +24,7 @@ pthon3 monitor.py [--monitor-interval ${MONITOR_INTERVAL}] [--log-dir ${LOG_DIR}
 - `CHECK_DOCKER`:是否检查在容器中启动的进程对应的容器名，如果是，则在detail日志中的container_name显示。
 - `DOCKER_AS_USER`:是否将容器当成一个用户，如果为True，则容器名格式为`${USER}_xxx`，并将`USER`当作同一个用户，
                     如果为False，则把每个容器名当成一个用户，并在容器名前加入标识`&DOCKER&`
+- `PRINT_LOG`:是否打印监控信息，默认为False
 
 ## Generate Report
 根据监控记录生成一段时间的汇总报告
@@ -38,10 +39,10 @@ pthon3 generate_report.py [--start-date ${START_DATE}] [--end-date ${END_DATE}]
 - `REPORT_DIR`:报告存放的文件夹，默认`report`。报告汇总从`START_DATE`到`END_DATE`的summary日志，输出格式与summary日志一致。
 
 ## 注意
-1. `generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误
-2. 启动`monitor.py`如果`LOG_DIR`存在，会发送警告，但不会检查目录里面的文件是否安全有效
-3. 该脚本不能放在容器中运行，不然会找不到使用GPU的进程号的信息
+-. `monitor.py`,`generate_report.py`中不能应对多种`LOG_TIME_UNIT`的日志，不然会出现错误，如果需要更换`LOG_TIME_UNIT`需要先删除之前的日志
+-. 该脚本不能放在容器中运行，不然会找不到使用GPU的进程号的信息
 
 ## 更新
+- 2020.8.26更新：修改了detail日志存储方式，使其可以在同一天中进程中断时不丢失之前的记录
 - 2020.8.25更新：新加入检查在容器中的pid对应容器名的功能
 
